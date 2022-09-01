@@ -75,7 +75,7 @@ void RadonEyeRD200::read_sensors_(uint8_t *value, uint16_t value_len) {
 
   // Example data
   // [13:08:47][D][radon_eye_rd200:107]: result bytes: 5010 85EBB940 00000000 00000000 2200 2500 0000
-  ESP_LOGV(TAG, "result bytes: %02X%02X %02X%02X%02X%02X %02X%02X%02X%02X %02X%02X%02X%02X %02X%02X %02X%02X %02X%02X",
+  ESP_LOGD(TAG, "result bytes: %02X%02X %02X%02X%02X%02X %02X%02X%02X%02X %02X%02X%02X%02X %02X%02X %02X%02X %02X%02X",
            value[0], value[1], value[2], value[3], value[4], value[5], value[6], value[7], value[8], value[9],
            value[10], value[11], value[12], value[13], value[14], value[15], value[16], value[17], value[18],
            value[19]);
@@ -111,16 +111,16 @@ void RadonEyeRD200::read_sensors_(uint8_t *value, uint16_t value_len) {
   float radon_month = radon_value.number * convert_to_bwpm3;
 
   if (is_valid_radon_value_(radon_month)) {
-    ESP_LOGV(TAG, "Radon Long Term based on month");
+    ESP_LOGD(TAG, "Radon Long Term based on month");
     radon_long_term_sensor_->publish_state(radon_month);
   } else if (is_valid_radon_value_(radon_day)) {
-    ESP_LOGV(TAG, "Radon Long Term based on day");
+    ESP_LOGD(TAG, "Radon Long Term based on day");
     radon_long_term_sensor_->publish_state(radon_day);
   }
 
-  ESP_LOGV(TAG, "  Measurements (Bq/m³) now: %0.03f, day: %0.03f, month: %0.03f", radon_now, radon_day, radon_month);
+  ESP_LOGD(TAG, "  Measurements (Bq/m³) now: %0.03f, day: %0.03f, month: %0.03f", radon_now, radon_day, radon_month);
 
-  ESP_LOGV(TAG, "  Measurements (pCi/L) now: %0.03f, day: %0.03f, month: %0.03f", radon_now / convert_to_bwpm3,
+  ESP_LOGD(TAG, "  Measurements (pCi/L) now: %0.03f, day: %0.03f, month: %0.03f", radon_now / convert_to_bwpm3,
            radon_day / convert_to_bwpm3, radon_month / convert_to_bwpm3);
 
   // This instance must not stay connected
@@ -163,6 +163,7 @@ void RadonEyeRD200::request_read_values_() {
 }
 
 void RadonEyeRD200::dump_config() {
+  LOG_SENSOR("  ", "Test v1", " ");
   LOG_SENSOR("  ", "Radon", this->radon_sensor_);
   LOG_SENSOR("  ", "Radon Long Term", this->radon_long_term_sensor_);
 }
