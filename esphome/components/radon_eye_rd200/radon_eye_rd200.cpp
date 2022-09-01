@@ -144,7 +144,7 @@ void RadonEyeRD200::update() {
 }
 
 void RadonEyeRD200::write_query_message_() {
-  ESP_LOGV(TAG, "writing 0x50 to write service");
+  ESP_LOGD(TAG, "writing 0x50 to write service");
   int request = 0x50;
   auto status = esp_ble_gattc_write_char_descr(this->parent()->gattc_if, this->parent()->conn_id, this->write_handle_,
                                                sizeof(request), (uint8_t *) &request, ESP_GATT_WRITE_TYPE_NO_RSP,
@@ -163,7 +163,7 @@ void RadonEyeRD200::request_read_values_() {
 }
 
 void RadonEyeRD200::dump_config() {
-  LOG_SENSOR("  ", "Test v1", " ");
+  ESP_LOGW(TAG, "Test v1");
   LOG_SENSOR("  ", "Radon", this->radon_sensor_);
   LOG_SENSOR("  ", "Radon Long Term", this->radon_long_term_sensor_);
 }
